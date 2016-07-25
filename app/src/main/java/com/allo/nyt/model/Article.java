@@ -31,6 +31,9 @@ public class Article {
     @SerializedName("source")
     String source;
 
+    @SerializedName("multimedia")
+    ArrayList<Multimedia> multimedias;
+
     @SerializedName("headline")
     Headline headline;
 
@@ -107,6 +110,14 @@ public class Article {
         this.source = source;
     }
 
+    public ArrayList<Multimedia> getMultimedias() {
+        return multimedias;
+    }
+
+    public void setMultimedias(ArrayList<Multimedia> multimedias) {
+        this.multimedias = multimedias;
+    }
+
     public Headline getHeadline() {
         return headline;
     }
@@ -169,5 +180,16 @@ public class Article {
 
     public void setTypeOfMaterial(String typeOfMaterial) {
         this.typeOfMaterial = typeOfMaterial;
+    }
+
+    public boolean hasImages() {
+        return this.multimedias != null && this.multimedias.size() > 0;
+    }
+
+    public Multimedia getFirstImage() {
+        if (this.multimedias != null && this.multimedias.size() > 0) {
+            return this.multimedias.get(0);
+        }
+        return null;
     }
 }

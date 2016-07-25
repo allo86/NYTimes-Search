@@ -37,4 +37,11 @@ dependencies {
     // Parceler
     compile 'org.parceler:parceler-api:1.1.1'
     apt 'org.parceler:parceler:1.1.1'
+    // Picasso
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    // RecyclerView Animators
+    compile 'jp.wasabeef:recyclerview-animators:2.2.0'
+    // abc
+    compile 'frankiesardo:icepick:3.2.0'
+    provided 'frankiesardo:icepick-processor:3.2.0'
 }

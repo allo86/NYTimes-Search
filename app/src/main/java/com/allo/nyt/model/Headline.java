@@ -16,6 +16,9 @@ public class Headline {
     @SerializedName("kicker")
     String kicker;
 
+    @SerializedName("name")
+    String name;
+
     public Headline() {
 
     }
@@ -34,5 +37,21 @@ public class Headline {
 
     public void setKicker(String kicker) {
         this.kicker = kicker;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTitle() {
+        if (getMain() != null && !"".equals(getMain())) {
+            return getMain();
+        } else {
+            return getName();
+        }
     }
 }

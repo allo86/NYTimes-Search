@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">NYTimesSearch</string>
+
     <string name="action_settings">Settings</string>
+    <string name="hint_search">Write something here</string>
+
+    <string name="error_load_results">There was an error loading the articles.</string>
+    <string name="error_max_results">You have reached the max number of results.</string>
+
+    <string name="no_available_connection">No Internet connection found.</string>
 </resources>
