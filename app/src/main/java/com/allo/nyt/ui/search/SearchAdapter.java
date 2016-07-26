@@ -61,7 +61,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public void notifyDataSetChanged(ArrayList<Article> articles) {
-        this.mArticles = articles;
+        this.mArticles = new ArrayList<>(articles);
         notifyDataSetChanged();
     }
 

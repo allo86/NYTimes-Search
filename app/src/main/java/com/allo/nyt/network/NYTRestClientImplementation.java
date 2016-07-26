@@ -6,6 +6,8 @@ import com.allo.nyt.network.callbacks.SearchArticlesCallback;
 import com.allo.nyt.network.deserializer.DateDeserializer;
 import com.allo.nyt.network.model.request.SearchArticlesRequest;
 import com.allo.nyt.network.model.response.SearchArticlesResponse;
+import com.allo.nyt.ui.filter.model.Filter;
+import com.allo.nyt.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -31,12 +33,19 @@ public class NYTRestClientImplementation {
                                    final SearchArticlesCallback callback) {
         RequestParams params = new RequestParams();
         params.put("page", request.getPage());
-        if (request.getBeginDate() != null && !"".equals(request.getBeginDate()))
-            params.put("begin_date", request.getBeginDate());
-        if (request.getEndDate() != null && !"".equals(request.getEndDate()))
-            params.put("end_date", request.getEndDate());
-        if (request.getSort() != null && !"".equals(request.getSort()))
-            params.put("sort", request.getSort());
+        params.put("q", request.getQuery());
+        if (request.getFilter() != null) {
+            Filter filter = request.getFilter();
+            if (filter.getBeginDate() != null)
+                params.put("begin_date", Utils.formatDate(filter.getBeginDate()));
+            if (filter.getEndDate() != null)
+                params.put("end_date", Utils.formatDate(filter.getEndDate()));
+            if (filter.getSort() != null && !"".equals(filter.getSort()))
+                params.put("sort", filter.getSort());
+            if (filter.getNewsDesk() != null && filter.getNewsDesk().size() > 0) {
+                params.put("fq", filter.getFormattedNewsDesk());
+            }
+        }
 
         NYTRestClient.get("articlesearch.json", params, new TextHttpResponseHandler() {
             @Override

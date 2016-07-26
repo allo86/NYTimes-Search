@@ -1,6 +1,7 @@
 package com.allo.nyt.network;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.allo.nyt.Application;
 import com.allo.nyt.R;
@@ -16,8 +17,9 @@ import com.loopj.android.http.RequestParams;
  */
 public class NYTRestClient {
 
-    private static final String BASE_URL = "https://api.nytimes.com/svc/search/v2/";
+    private static final String TAG_LOG = NYTRestClient.class.getCanonicalName();
 
+    private static final String BASE_URL = "https://api.nytimes.com/svc/search/v2/";
     private static final String API_KEY = "a2a8ed7806b044ae9d70c40e052528ef";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
@@ -53,7 +55,9 @@ public class NYTRestClient {
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {
-        return BASE_URL + relativeUrl;
+        String url = BASE_URL + relativeUrl;
+        Log.d(TAG_LOG, url);
+        return url;
     }
 
     private static Context getContext() {

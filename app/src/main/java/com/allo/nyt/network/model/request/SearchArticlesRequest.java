@@ -1,5 +1,7 @@
 package com.allo.nyt.network.model.request;
 
+import com.allo.nyt.ui.filter.model.Filter;
+
 /**
  * SearchArticlesRequest
  * <p/>
@@ -11,20 +13,7 @@ public class SearchArticlesRequest {
 
     private String query;
 
-    /**
-     * Format: YYYYMMDD
-     */
-    private String beginDate;
-
-    /**
-     * Format: YYYYMMDD
-     */
-    private String endDate;
-
-    /**
-     * Values: newest, oldest
-     */
-    private String sort;
+    private Filter filter;
 
     public SearchArticlesRequest() {
 
@@ -46,27 +35,11 @@ public class SearchArticlesRequest {
         this.query = query;
     }
 
-    public String getBeginDate() {
-        return beginDate;
+    public Filter getFilter() {
+        return filter;
     }
 
-    public void setBeginDate(String beginDate) {
-        this.beginDate = beginDate;
-    }
-
-    public String getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getSort() {
-        return sort;
-    }
-
-    public void setSort(String sort) {
-        this.sort = sort;
+    public void setFilter(Filter filter) {
+        this.filter = filter;
     }
 }

@@ -3,15 +3,18 @@ package com.allo.nyt.ui.utils;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 
 /**
  * Created by ALLO on 18/7/16.
  */
 public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
+    private static final String TAG_LOG = EndlessRecyclerViewScrollListener.class.getCanonicalName();
+
     // The minimum amount of items to have below your current scroll position
     // before loading more.
-    private int visibleThreshold = 5;
+    private int visibleThreshold = 3;
     // The current offset index of data you have loaded
     private int currentPage = 0;
     // The total number of items in the dataset after the last load
@@ -89,6 +92,9 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
         // If we do need to reload some more data, we execute onLoadMore to fetch the data.
         // threshold should reflect how many total columns there are too
         if (!loading && (lastVisibleItemPosition + visibleThreshold) > totalItemCount) {
+            Log.d(TAG_LOG, "lastVisibleItemPosition: " + String.valueOf(lastVisibleItemPosition));
+            Log.d(TAG_LOG, "visibleThreshold: " + String.valueOf(visibleThreshold));
+            Log.d(TAG_LOG, "totalItemCount: " + String.valueOf(totalItemCount));
             currentPage++;
             onLoadMore(currentPage, totalItemCount);
             loading = true;
