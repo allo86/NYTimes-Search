@@ -11,13 +11,13 @@ import java.util.Date;
 @Parcel
 public class Filter {
 
-    private Date beginDate;
+    Date beginDate;
 
-    private Date endDate;
+    Date endDate;
 
-    private String sort;
+    String sort;
 
-    private ArrayList<String> newsDesk;
+    ArrayList<String> newsDesk;
 
     public Filter() {
 

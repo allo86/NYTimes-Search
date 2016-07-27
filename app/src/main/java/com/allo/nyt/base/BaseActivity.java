@@ -31,6 +31,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         initializeUI();
         initializeData();
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            initializeDataFromIntentBundle(extras);
+        }
+
         showData();
     }
 
@@ -75,6 +80,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void initializeData() {
     }
+
+    protected abstract void initializeDataFromIntentBundle(Bundle extras);
 
     protected abstract void showData();
 }

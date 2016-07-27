@@ -1,6 +1,7 @@
 package com.allo.nyt.ui.search;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.RecyclerView;
@@ -17,10 +18,13 @@ import com.allo.nyt.network.NYTRestClientImplementation;
 import com.allo.nyt.network.callbacks.SearchArticlesCallback;
 import com.allo.nyt.network.model.request.SearchArticlesRequest;
 import com.allo.nyt.network.model.response.SearchArticlesResponse;
+import com.allo.nyt.ui.article.ArticleActivity;
 import com.allo.nyt.ui.filter.FilterActivity;
 import com.allo.nyt.ui.utils.EndlessRecyclerViewScrollListener;
 import com.allo.nyt.ui.utils.SpacesItemDecoration;
 import com.allo.nyt.utils.Preferences;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -77,8 +81,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
+        //int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
 
@@ -120,6 +123,11 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
         mAdapter = new SearchAdapter(new ArrayList<Article>(), this);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void initializeDataFromIntentBundle(Bundle extras) {
+
     }
 
     @Override
@@ -180,7 +188,9 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
     @Override
     public void didSelectArticle(Article article) {
-
+        Intent intent = new Intent(this, ArticleActivity.class);
+        intent.putExtra(ArticleActivity.ARTICLE, Parcels.wrap(article));
+        startActivity(intent);
     }
 
     @OnClick(R.id.fab_filter)

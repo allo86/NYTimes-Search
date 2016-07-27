@@ -19,6 +19,9 @@ public class Headline {
     @SerializedName("name")
     String name;
 
+    @SerializedName("print_headline")
+    String printHeadline;
+
     public Headline() {
 
     }
@@ -47,9 +50,19 @@ public class Headline {
         this.name = name;
     }
 
+    public String getPrintHeadline() {
+        return printHeadline;
+    }
+
+    public void setPrintHeadline(String printHeadline) {
+        this.printHeadline = printHeadline;
+    }
+
     public String getTitle() {
         if (getMain() != null && !"".equals(getMain())) {
             return getMain();
+        } else if (getPrintHeadline() != null && !"".equals(getPrintHeadline())) {
+            return getPrintHeadline();
         } else {
             return getName();
         }

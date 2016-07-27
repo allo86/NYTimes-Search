@@ -8,4 +8,6 @@
     <string name="error_max_results">You have reached the max number of results.</string>
 
     <string name="no_available_connection">No Internet connection found.</string>
+
+    <string name="hint_share">Share</string>
 </resources>

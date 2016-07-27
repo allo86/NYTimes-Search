@@ -1,6 +1,7 @@
 package com.allo.nyt.ui.filter;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -92,6 +93,11 @@ public class FilterActivity extends BaseActivity {
     @Override
     protected void initializeData() {
         mFilter = Preferences.sharedInstance().getFilter();
+    }
+
+    @Override
+    protected void initializeDataFromIntentBundle(Bundle extras) {
+
     }
 
     @Override
