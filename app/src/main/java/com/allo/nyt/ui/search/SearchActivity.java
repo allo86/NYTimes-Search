@@ -42,6 +42,7 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
     RecyclerView mRecyclerView;
 
     SearchAdapter mAdapter;
+    StaggeredGridLayoutManager mGridLayoutManager;
     ArrayList<Article> mArticles;
 
     @State
@@ -116,11 +117,11 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
         mRecyclerView.addItemDecoration(new SpacesItemDecoration(16));
         mRecyclerView.setItemAnimator(new SlideInUpAnimator());
 
-        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        gridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-        mRecyclerView.setLayoutManager(gridLayoutManager);
+        mGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
 
-        mRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(gridLayoutManager) {
+        mRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(mGridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 // Triggered only when new data needs to be appended to the list
@@ -138,6 +139,8 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
 
         mAdapter = new SearchAdapter(new ArrayList<Article>(), this);
         mRecyclerView.setAdapter(mAdapter);
+
+        updateToolbarBehaviour();
     }
 
     @Override
@@ -174,6 +177,8 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
                         mArticles.addAll(response.getArticles());
                         mAdapter.notifyDataSetChanged(mArticles);
                     }
+
+                    updateToolbarBehaviour();
                 }
 
                 @Override
@@ -181,8 +186,22 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
                     Snackbar.make(mRecyclerView,
                             error.getMessage(),
                             Snackbar.LENGTH_LONG).show();
+
+                    updateToolbarBehaviour();
                 }
             });
+        }
+    }
+
+    private void updateToolbarBehaviour() {
+        int[] lastItems = mGridLayoutManager.findLastCompletelyVisibleItemPositions(new int[mGridLayoutManager.getSpanCount()]);
+        int lastItem = Math.abs(lastItems[lastItems.length - 1]);
+        int count = mAdapter.getItemCount();
+        boolean enabled = lastItem < count - 1;
+        if (enabled) {
+            turnOnToolbarScrolling();
+        } else {
+            turnOffToolbarScrolling();
         }
     }
 
