@@ -37,4 +37,8 @@ public class Utils {
         return df.format(date);
     }
 
+    public static String formatDateShort(Date date) {
+        return DateFormat.getDateInstance(DateFormat.SHORT).format(date);
+    }
+
 }

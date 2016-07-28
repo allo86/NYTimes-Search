@@ -20,7 +20,7 @@ import java.util.TimeZone;
  */
 public class DateDeserializer implements JsonDeserializer<Date> {
 
-    private final DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+    private final DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
 
     public DateDeserializer() {
         df.setTimeZone(TimeZone.getTimeZone("Zulu"));

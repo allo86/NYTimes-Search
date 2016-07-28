@@ -10,4 +10,6 @@
     <string name="no_available_connection">No Internet connection found.</string>
 
     <string name="hint_share">Share</string>
+
+    <string name="author_with_date">&#160;-&#160;%1$s</string>
 </resources>

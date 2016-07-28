@@ -36,7 +36,7 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 /**
  * SearchActivity
  */
-public class SearchActivity extends BaseActivity implements SearchView.OnQueryTextListener, SearchAdapter.OnArticlesAdapterListener {
+public class SearchActivity extends BaseActivity implements SearchAdapter.OnArticlesAdapterListener {
 
     @BindView(R.id.rv_articles)
     RecyclerView mRecyclerView;
@@ -56,7 +56,22 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
         final MenuItem searchItem = menu.findItem(R.id.search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnQueryTextListener(this);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // User pressed the search button
+                mTextFilter = query;
+                mArticles = new ArrayList<>();
+                loadMoreArticles(0);
+                searchView.clearFocus();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
@@ -137,21 +152,6 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         } else {
             loadMoreArticles(0);
         }
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        // User pressed the search button
-        mTextFilter = query;
-        mArticles = new ArrayList<>();
-        loadMoreArticles(0);
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        // User changed the text
-        return false;
     }
 
     private void loadMoreArticles(final int page) {

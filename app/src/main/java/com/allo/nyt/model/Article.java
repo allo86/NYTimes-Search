@@ -58,6 +58,9 @@ public class Article {
     @SerializedName("type_of_material")
     String typeOfMaterial;
 
+    @SerializedName("byline")
+    ByLine byLine;
+
     public Article() {
 
     }
@@ -180,6 +183,14 @@ public class Article {
 
     public void setTypeOfMaterial(String typeOfMaterial) {
         this.typeOfMaterial = typeOfMaterial;
+    }
+
+    public ByLine getByLine() {
+        return byLine;
+    }
+
+    public void setByLine(ByLine byLine) {
+        this.byLine = byLine;
     }
 
     public boolean hasImages() {

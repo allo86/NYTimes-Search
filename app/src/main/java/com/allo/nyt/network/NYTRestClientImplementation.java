@@ -2,7 +2,9 @@ package com.allo.nyt.network;
 
 import android.util.Log;
 
+import com.allo.nyt.model.ByLine;
 import com.allo.nyt.network.callbacks.SearchArticlesCallback;
+import com.allo.nyt.network.deserializer.ByLineDeserializer;
 import com.allo.nyt.network.deserializer.DateDeserializer;
 import com.allo.nyt.network.model.request.SearchArticlesRequest;
 import com.allo.nyt.network.model.response.SearchArticlesResponse;
@@ -56,6 +58,7 @@ public class NYTRestClientImplementation {
 
                     Gson gson = new GsonBuilder()
                             .registerTypeAdapter(Date.class, new DateDeserializer())
+                            .registerTypeAdapter(ByLine.class, new ByLineDeserializer())
                             .create();
                     SearchArticlesResponse searchArticlesResponse = gson.fromJson(jsonObject.get("response"), SearchArticlesResponse.class);
                     callback.onSuccess(searchArticlesResponse);

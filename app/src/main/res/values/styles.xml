@@ -24,6 +24,17 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="articles_list_author">
+        <item name="android:textSize">@dimen/article_list_author</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:gravity">start</item>
+    </style>
+
+    <style name="articles_list_date" parent="articles_list_author">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
     <style name="base_card_view" parent="CardView">
         <item name="cardCornerRadius">@dimen/card_corner_radius</item>
         <item name="cardElevation">@dimen/card_elevation</item>

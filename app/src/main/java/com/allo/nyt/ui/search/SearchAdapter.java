@@ -12,6 +12,7 @@ import com.allo.nyt.R;
 import com.allo.nyt.model.Article;
 import com.allo.nyt.model.Multimedia;
 import com.allo.nyt.ui.utils.DynamicHeightImageView;
+import com.allo.nyt.utils.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -29,6 +30,9 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private static final String TAG_LOG = SearchAdapter.class.getCanonicalName();
 
+    public static int ARTICLE_THUMBNAIL = 1;
+    public static int ARTICLE_HEADLINE = 2;
+
     public interface OnArticlesAdapterListener {
         void didSelectArticle(Article article);
     }
@@ -44,14 +48,24 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_articles, parent, false);
-        return new ArticleViewHolder(view);
+        if (viewType == ARTICLE_THUMBNAIL) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_articles_multimedia, parent, false);
+            return new ArticleMultimediaViewHolder(view);
+        } else if (viewType == ARTICLE_HEADLINE) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_articles_headline, parent, false);
+            return new ArticleHeadlineViewHolder(view);
+        }
+        return null;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ArticleViewHolder) {
-            ((ArticleViewHolder) holder).configureViewWithArticle(mArticles.get(position));
+        if (holder != null) {
+            if (holder instanceof ArticleMultimediaViewHolder) {
+                ((ArticleMultimediaViewHolder) holder).configureViewWithArticle(mArticles.get(position));
+            } else if (holder instanceof ArticleHeadlineViewHolder) {
+                ((ArticleHeadlineViewHolder) holder).configureViewWithArticle(mArticles.get(position));
+            }
         }
     }
 
@@ -60,12 +74,22 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return this.mArticles != null ? this.mArticles.size() : 0;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        Article article = mArticles.get(position);
+        if (article.hasImages()) {
+            return ARTICLE_THUMBNAIL;
+        } else {
+            return ARTICLE_HEADLINE;
+        }
+    }
+
     public void notifyDataSetChanged(ArrayList<Article> articles) {
         this.mArticles = new ArrayList<>(articles);
         notifyDataSetChanged();
     }
 
-    class ArticleViewHolder extends RecyclerView.ViewHolder {
+    class ArticleMultimediaViewHolder extends RecyclerView.ViewHolder {
         private View view;
 
         private Article article;
@@ -79,7 +103,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         @BindView(R.id.tv_headline)
         TextView tvHeadline;
 
-        public ArticleViewHolder(View view) {
+        public ArticleMultimediaViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
 
@@ -118,6 +142,57 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 pbImage.setVisibility(View.GONE);
                 ivPhoto.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    class ArticleHeadlineViewHolder extends RecyclerView.ViewHolder {
+        private View view;
+
+        private Article article;
+
+        @BindView(R.id.tv_headline)
+        TextView tvHeadline;
+
+        @BindView(R.id.tv_date)
+        TextView tvDate;
+
+        @BindView(R.id.tv_author)
+        TextView tvAuthor;
+
+        public ArticleHeadlineViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+
+            this.view = view;
+            this.view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) mListener.didSelectArticle(article);
+                }
+            });
+        }
+
+        public void configureViewWithArticle(Article article) {
+            this.article = article;
+
+            tvHeadline.setText(article.getHeadline().getTitle());
+            if (article.getPubDate() != null) {
+                tvDate.setVisibility(View.VISIBLE);
+                tvDate.setText(Utils.formatDateShort(article.getPubDate()));
+            } else {
+                tvDate.setVisibility(View.GONE);
+            }
+
+            if (article.getByLine() != null) {
+                tvAuthor.setVisibility(View.VISIBLE);
+                if (tvDate.getVisibility() == View.VISIBLE) {
+                    tvAuthor.setText(tvAuthor.getContext().getString(R.string.author_with_date, article.getByLine().getOriginal()));
+                } else {
+                    tvAuthor.setText(article.getByLine().getOriginal());
+                }
+            } else {
+                tvAuthor.setVisibility(View.GONE);
             }
         }
     }
