@@ -135,7 +135,7 @@ public class ArticleActivity extends BaseActivity {
                 mProgressBar.setVisibility(ProgressBar.VISIBLE);
             }
 
-            mProgressBar.setProgress(progress);
+            mProgressBar.setProgress(progress < 5 ? 5 : progress);
             if (progress == 100) {
                 mProgressBar.setVisibility(ProgressBar.GONE);
             }

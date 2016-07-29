@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
@@ -54,7 +55,8 @@ public class SettingsFragment extends DialogFragment {
 
         getDialog().setTitle(R.string.action_settings);
 
-        //getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        // Hide title bar
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
     }
 
     @Override

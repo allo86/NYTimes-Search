@@ -60,6 +60,7 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
 
         final MenuItem searchItem = menu.findItem(R.id.search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint(getString(R.string.hint_search));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -68,6 +69,8 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
                 mArticles = new ArrayList<>();
                 loadMoreArticles(0);
                 searchView.clearFocus();
+                searchItem.collapseActionView();
+                setTitle(query);
                 return false;
             }
 

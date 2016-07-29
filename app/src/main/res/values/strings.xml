@@ -1,15 +1,16 @@
 <resources>
 
-    <string name="app_name">NYTimesSearch</string>
+    <string name="app_name">NYTimes Search</string>
 
-    <string name="hint_search">Write something here</string>
+    <string name="search">Search</string>
+    <string name="hint_search">Write something here &#8230;</string>
 
     <string name="error_load_results">There was an error loading the articles.</string>
     <string name="error_max_results">You have reached the max number of results.</string>
 
     <string name="no_available_connection">No Internet connection found.</string>
 
-    <string name="hint_share">Share</string>
+    <string name="share">Share</string>
     <string name="share_title">Share link using</string>
 
     <string name="author_with_date">&#160;-&#160;%1$s</string>
