@@ -26,6 +26,9 @@ public class SettingsFragment extends DialogFragment {
     @BindView(R.id.cb_fullscreen_detail)
     CheckBox mCbFullscreenDetail;
 
+    @BindView(R.id.cb_filter_dialog)
+    CheckBox mCbFilterDialog;
+
     private Unbinder unbinder;
 
     public SettingsFragment() {
@@ -50,6 +53,14 @@ public class SettingsFragment extends DialogFragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Preferences.sharedInstance().putBoolean(Preferences.SHOW_ARTICLE_FULLSCREEN, isChecked);
+            }
+        });
+
+        mCbFilterDialog.setChecked(Preferences.sharedInstance().getBoolean(Preferences.SHOW_FILTER_DIALOG, false));
+        mCbFilterDialog.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Preferences.sharedInstance().putBoolean(Preferences.SHOW_FILTER_DIALOG, isChecked);
             }
         });
 

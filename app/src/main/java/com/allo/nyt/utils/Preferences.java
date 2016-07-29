@@ -37,6 +37,7 @@ public class Preferences {
     public static final String PREFS_NAME = "NYT_Preferences";
 
     public static final String SHOW_ARTICLE_FULLSCREEN = "SHOW_ARTICLE_FULLSCREEN";
+    public static final String SHOW_FILTER_DIALOG = "SHOW_FILTER_DIALOG";
 
     public void saveFilter(Filter filter) {
         putString("sort", filter.getSort());

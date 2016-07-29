@@ -22,6 +22,8 @@ import com.allo.nyt.network.model.response.SearchArticlesResponse;
 import com.allo.nyt.ui.article.ArticleActivity;
 import com.allo.nyt.ui.article.ArticleFullScreenActivity;
 import com.allo.nyt.ui.filter.FilterActivity;
+import com.allo.nyt.ui.filter.FilterFragment;
+import com.allo.nyt.ui.filter.model.Filter;
 import com.allo.nyt.ui.settings.SettingsFragment;
 import com.allo.nyt.ui.utils.EndlessRecyclerViewScrollListener;
 import com.allo.nyt.ui.utils.SpacesItemDecoration;
@@ -39,7 +41,8 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 /**
  * SearchActivity
  */
-public class SearchActivity extends BaseActivity implements SearchAdapter.OnArticlesAdapterListener {
+public class SearchActivity extends BaseActivity implements SearchAdapter.OnArticlesAdapterListener,
+        FilterFragment.OnFilterFragmentListener {
 
     @BindView(R.id.rv_articles)
     RecyclerView mRecyclerView;
@@ -240,8 +243,14 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
 
     @OnClick(R.id.fab_filter)
     public void goToFilter() {
-        Intent intent = new Intent(this, FilterActivity.class);
-        startActivityForResult(intent, FilterActivity.REQUEST_CODE);
+        if (Preferences.sharedInstance().getBoolean(Preferences.SHOW_FILTER_DIALOG, false)) {
+            FragmentManager fm = getSupportFragmentManager();
+            FilterFragment fragment = new FilterFragment();
+            fragment.show(fm, "filter");
+        } else {
+            Intent intent = new Intent(this, FilterActivity.class);
+            startActivityForResult(intent, FilterActivity.REQUEST_CODE);
+        }
     }
 
     @Override
@@ -253,5 +262,12 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
                 loadMoreArticles(0);
             }
         }
+    }
+
+    @Override
+    public void onFilterSaved(Filter filter) {
+        // Start new search, page 0
+        mArticles = new ArrayList<>();
+        loadMoreArticles(0);
     }
 }
