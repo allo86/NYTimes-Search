@@ -3,6 +3,7 @@ package com.allo.nyt.ui.search;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -19,7 +20,9 @@ import com.allo.nyt.network.callbacks.SearchArticlesCallback;
 import com.allo.nyt.network.model.request.SearchArticlesRequest;
 import com.allo.nyt.network.model.response.SearchArticlesResponse;
 import com.allo.nyt.ui.article.ArticleActivity;
+import com.allo.nyt.ui.article.ArticleFullScreenActivity;
 import com.allo.nyt.ui.filter.FilterActivity;
+import com.allo.nyt.ui.settings.SettingsFragment;
 import com.allo.nyt.ui.utils.EndlessRecyclerViewScrollListener;
 import com.allo.nyt.ui.utils.SpacesItemDecoration;
 import com.allo.nyt.utils.Preferences;
@@ -97,7 +100,14 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        //int id = item.getItemId();
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            goToSettings();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -205,11 +215,24 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
         }
     }
 
+    private void goToSettings() {
+        FragmentManager fm = getSupportFragmentManager();
+        SettingsFragment fragment = new SettingsFragment();
+        fragment.show(fm, "settings");
+    }
+
     @Override
     public void didSelectArticle(Article article) {
-        Intent intent = new Intent(this, ArticleActivity.class);
-        intent.putExtra(ArticleActivity.ARTICLE, Parcels.wrap(article));
-        startActivity(intent);
+        Intent intent;
+        if (Preferences.sharedInstance().getBoolean(Preferences.SHOW_ARTICLE_FULLSCREEN, false)) {
+            intent = new Intent(this, ArticleFullScreenActivity.class);
+            intent.putExtra(ArticleActivity.ARTICLE, Parcels.wrap(article));
+            startActivity(intent);
+        } else {
+            intent = new Intent(this, ArticleActivity.class);
+            intent.putExtra(ArticleActivity.ARTICLE, Parcels.wrap(article));
+            startActivity(intent);
+        }
     }
 
     @OnClick(R.id.fab_filter)

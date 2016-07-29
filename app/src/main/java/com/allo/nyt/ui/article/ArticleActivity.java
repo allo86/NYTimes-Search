@@ -2,6 +2,7 @@ package com.allo.nyt.ui.article;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import com.allo.nyt.model.Article;
 import org.parceler.Parcels;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class ArticleActivity extends BaseActivity {
 
@@ -29,6 +31,9 @@ public class ArticleActivity extends BaseActivity {
 
     @BindView(R.id.pb_horizontal)
     ProgressBar mProgressBar;
+
+    @BindView(R.id.fab_share)
+    FloatingActionButton btShare;
 
     private Article mArticle;
 
@@ -57,6 +62,8 @@ public class ArticleActivity extends BaseActivity {
         mWebView.getSettings().setSupportZoom(true);
         mWebView.getSettings().setBuiltInZoomControls(true); // allow pinch to zooom
         mWebView.getSettings().setDisplayZoomControls(false); // disable the default zoom controls on the page
+
+        btShare.setVisibility(View.GONE);
     }
 
     @Override
@@ -103,12 +110,12 @@ public class ArticleActivity extends BaseActivity {
     }
     */
 
-    private void share(MenuItem menuItem) {
-        ShareActionProvider shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+    @OnClick(R.id.fab_share)
+    public void share() {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, mArticle.getWebUrl());
-        shareActionProvider.setShareIntent(shareIntent);
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_title)));
     }
 
     // Manages the behavior when URLs are loaded

@@ -12,6 +12,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+
+        <meta-data
+            android:name="com.allo.nyt.ui.utils.GlideConfiguration"
+            android:value="GlideModule" />
+
         <activity
             android:name=".ui.search.SearchActivity"
             android:label="@string/app_name">
@@ -23,6 +28,9 @@
         </activity>
         <activity android:name=".ui.filter.FilterActivity" />
         <activity android:name=".ui.article.ArticleActivity" />
+        <activity
+            android:name=".ui.article.ArticleFullScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
     </application>
 
 </manifest>

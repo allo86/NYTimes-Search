@@ -36,6 +36,8 @@ public class Preferences {
 
     public static final String PREFS_NAME = "NYT_Preferences";
 
+    public static final String SHOW_ARTICLE_FULLSCREEN = "SHOW_ARTICLE_FULLSCREEN";
+
     public void saveFilter(Filter filter) {
         putString("sort", filter.getSort());
         putLong("beginDate", filter.getBeginDate() != null ? filter.getBeginDate().getTime() : -1L);
@@ -81,6 +83,14 @@ public class Preferences {
 
     private ArrayList<String> getListString(String key) {
         return new ArrayList<>(Arrays.asList(TextUtils.split(this.mSharedPreferences.getString(key, ""), "‚‗‚")));
+    }
+
+    public void putBoolean(String key, boolean value) {
+        this.mSharedPreferences.edit().putBoolean(key, value).apply();
+    }
+
+    public boolean getBoolean(String key, boolean defaultValue) {
+        return this.mSharedPreferences.getBoolean(key, defaultValue);
     }
 
     /*

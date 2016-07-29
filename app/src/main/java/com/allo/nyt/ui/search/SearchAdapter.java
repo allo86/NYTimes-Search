@@ -1,5 +1,6 @@
 package com.allo.nyt.ui.search;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,8 +14,10 @@ import com.allo.nyt.model.Article;
 import com.allo.nyt.model.Multimedia;
 import com.allo.nyt.ui.utils.DynamicHeightImageView;
 import com.allo.nyt.utils.Utils;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
 
@@ -127,6 +130,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (article.hasImages()) {
                 Multimedia photo = article.getFirstImage();
                 ivPhoto.setHeightRatio(((double) photo.getHeight()) / photo.getWidth());
+                /*
                 Picasso.with(view.getContext()).load(article.getFirstImage().getUrl())
                         .into(ivPhoto, new Callback() {
                             @Override
@@ -137,6 +141,20 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             @Override
                             public void onError() {
                                 Log.d(TAG_LOG, "error");
+                            }
+                        });
+                */
+                Glide.with(view.getContext()).load(article.getFirstImage().getUrl())
+                        .into(new SimpleTarget<GlideDrawable>() {
+                            @Override
+                            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                                ivPhoto.setImageDrawable(resource);
+                                pbImage.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                Log.d(TAG_LOG, e.getMessage());
                             }
                         });
             } else {
