@@ -7,6 +7,7 @@
 
     <string name="filter">Filter</string>
 
+    <string name="loading">Loading &#8230;</string>
     <string name="error_load_results">There was an error loading the articles.</string>
     <string name="error_max_results">You have reached the max number of results.</string>
 

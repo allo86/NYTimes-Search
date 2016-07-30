@@ -4,6 +4,13 @@
     tools:context=".ui.search.SearchActivity">
 
     <item
+        android:id="@+id/miActionProgress"
+        android:title="@string/loading"
+        android:visible="false"
+        app:actionLayout="@layout/action_view_progress"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/search"
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/search"

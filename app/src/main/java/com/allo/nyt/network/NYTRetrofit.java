@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -47,7 +48,10 @@ public class NYTRetrofit {
                                 return chain.proceed(request);
                             }
                         })
-                .addInterceptor(httpLoggingInterceptor);
+                .addInterceptor(httpLoggingInterceptor)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS);
         OkHttpClient client = builder.build();
 
         this.retrofit = new Retrofit.Builder()
@@ -67,7 +71,4 @@ public class NYTRetrofit {
         return retrofit;
     }
 
-    public void setRetrofit(Retrofit retrofit) {
-        this.retrofit = retrofit;
-    }
 }

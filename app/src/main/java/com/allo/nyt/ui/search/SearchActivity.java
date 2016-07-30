@@ -11,6 +11,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
 import com.allo.nyt.R;
 import com.allo.nyt.base.BaseActivity;
@@ -55,6 +56,17 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
     String mTextFilter;
 
     private SearchView searchView;
+    private MenuItem progressItem;
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        progressItem = menu.findItem(R.id.miActionProgress);
+        // Extract the action-view from the menu item
+        ProgressBar v = (ProgressBar) MenuItemCompat.getActionView(progressItem);
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -174,6 +186,8 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
     }
 
     private void loadMoreArticles(final int page) {
+        showProgressBar();
+
         // Perform request if user has entered text
         if (mTextFilter != null && !"".equals(mTextFilter)) {
             // Build filter params
@@ -195,6 +209,8 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
                     }
 
                     updateToolbarBehaviour();
+
+                    hideProgressBar();
                 }
 
                 @Override
@@ -204,6 +220,8 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
                             Snackbar.LENGTH_LONG).show();
 
                     updateToolbarBehaviour();
+
+                    hideProgressBar();
                 }
             });
         }
@@ -269,5 +287,15 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
         // Start new search, page 0
         mArticles = new ArrayList<>();
         loadMoreArticles(0);
+    }
+
+    private void showProgressBar() {
+        // Show progress item
+        if (progressItem != null) progressItem.setVisible(true);
+    }
+
+    private void hideProgressBar() {
+        // Hide progress item
+        if (progressItem != null) progressItem.setVisible(false);
     }
 }

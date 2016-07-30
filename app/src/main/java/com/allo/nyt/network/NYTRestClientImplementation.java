@@ -1,10 +1,14 @@
 package com.allo.nyt.network;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.allo.nyt.Application;
+import com.allo.nyt.R;
 import com.allo.nyt.network.callbacks.SearchArticlesCallback;
 import com.allo.nyt.network.model.request.SearchArticlesRequest;
 import com.allo.nyt.network.model.response.SearchArticlesResponse;
+import com.allo.nyt.network.utils.NetworkUtils;
 import com.allo.nyt.ui.filter.model.Filter;
 import com.allo.nyt.utils.Utils;
 
@@ -23,6 +27,11 @@ public class NYTRestClientImplementation {
 
     public static void getArticles(SearchArticlesRequest request,
                                    final SearchArticlesCallback callback) {
+
+        if (!NetworkUtils.isOnline()) {
+            callback.onError(new Error(getContext().getString(R.string.no_available_connection)));
+            return;
+        }
         /*
         RequestParams params = new RequestParams();
         params.put("page", request.getPage());
@@ -98,6 +107,10 @@ public class NYTRestClientImplementation {
                 callback.onError(new Error(t.getMessage()));
             }
         });
+    }
+
+    private static Context getContext() {
+        return Application.sharedInstance().getApplicationContext();
     }
 
 }
