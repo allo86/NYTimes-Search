@@ -58,17 +58,18 @@ public class Preferences {
     }
 
     private void putString(String key, String value) {
-        //checkForNullKey(key);
-        //checkForNullValue(value);
-        this.mSharedPreferences.edit().putString(key, value).apply();
+        if (value != null) {
+            this.mSharedPreferences.edit().putString(key, value).apply();
+        } else {
+            this.mSharedPreferences.edit().remove(key).apply();
+        }
     }
 
     private String getString(String key) {
         return this.mSharedPreferences.getString(key, "");
     }
 
-    public void putLong(String key, long value) {
-        //checkForNullKey(key);
+    public void putLong(String key, Long value) {
         this.mSharedPreferences.edit().putLong(key, value).apply();
     }
 
@@ -77,9 +78,12 @@ public class Preferences {
     }
 
     private void putListString(String key, ArrayList<String> stringList) {
-        //checkForNullKey(key);
-        String[] myStringList = stringList.toArray(new String[stringList.size()]);
-        this.mSharedPreferences.edit().putString(key, TextUtils.join("‚‗‚", myStringList)).apply();
+        if (stringList != null) {
+            String[] myStringList = stringList.toArray(new String[stringList.size()]);
+            this.mSharedPreferences.edit().putString(key, TextUtils.join("‚‗‚", myStringList)).apply();
+        } else {
+            this.mSharedPreferences.edit().remove(key).apply();
+        }
     }
 
     private ArrayList<String> getListString(String key) {
@@ -93,20 +97,6 @@ public class Preferences {
     public boolean getBoolean(String key, boolean defaultValue) {
         return this.mSharedPreferences.getBoolean(key, defaultValue);
     }
-
-    /*
-    private void checkForNullKey(String key) {
-        if (key == null) {
-            throw new NullPointerException();
-        }
-    }
-
-    private void checkForNullValue(String value) {
-        if (value == null) {
-            throw new NullPointerException();
-        }
-    }
-    */
 
     private Context getContext() {
         return Application.sharedInstance().getApplicationContext();

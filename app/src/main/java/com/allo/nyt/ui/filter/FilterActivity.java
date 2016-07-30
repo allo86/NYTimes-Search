@@ -123,6 +123,17 @@ public class FilterActivity extends BaseActivity {
         }
     }
 
+    @OnClick(R.id.bt_clear_filter)
+    public void clearFilter() {
+        mFilter = new Filter();
+        inputBeginDate.setDate(null);
+        inputEndDate.setDate(null);
+        spSort.setSelection(0);
+        String[] values = getResources().getStringArray(R.array.values_new_desk);
+        boolean[] selectedItems = new boolean[values.length];
+        spNewsDesk.setSelected(selectedItems);
+    }
+
     @OnClick(R.id.bt_apply_filter)
     public void applyFilter() {
         Preferences.sharedInstance().saveFilter(mFilter);

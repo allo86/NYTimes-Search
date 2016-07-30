@@ -79,6 +79,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/dates_container"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -123,12 +125,30 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/bt_apply_filter"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/news_desk_container"
-            android:text="@string/button_apply_filter" />
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/bt_clear_filter"
+                style="@style/apply_filter_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/button_clear_filter" />
+
+            <Button
+                android:id="@+id/bt_apply_filter"
+                style="@style/apply_filter_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/button_apply_filter" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 

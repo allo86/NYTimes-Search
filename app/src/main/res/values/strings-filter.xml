@@ -123,6 +123,7 @@
         <item>Your Money</item>
     </string-array>
 
+    <string name="button_clear_filter">Clear criteria</string>
     <string name="button_apply_filter">Apply Filter</string>
 
 </resources>

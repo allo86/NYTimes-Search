@@ -186,10 +186,10 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
     }
 
     private void loadMoreArticles(final int page) {
-        showProgressBar();
-
         // Perform request if user has entered text
         if (mTextFilter != null && !"".equals(mTextFilter)) {
+            showProgressBar();
+
             // Build filter params
             SearchArticlesRequest request = new SearchArticlesRequest();
             request.setPage(page);
