@@ -186,7 +186,7 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
             NYTRestClientImplementation.getArticles(request, new SearchArticlesCallback() {
                 @Override
                 public void onSuccess(SearchArticlesResponse response) {
-                    if (response.getArticles() != null && response.getArticles().size() > 0) {
+                    if (response.getArticles() != null) {
                         if (mArticles == null) {
                             mArticles = new ArrayList<>();
                         }

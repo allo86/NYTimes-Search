@@ -19,9 +19,6 @@ public class NYTRestClient {
 
     private static final String TAG_LOG = NYTRestClient.class.getCanonicalName();
 
-    private static final String BASE_URL = "https://api.nytimes.com/svc/search/v2/";
-    private static final String API_KEY = "a2a8ed7806b044ae9d70c40e052528ef";
-
     private static AsyncHttpClient client = new AsyncHttpClient();
 
     public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
@@ -34,7 +31,7 @@ public class NYTRestClient {
         if (params == null) {
             params = new RequestParams();
         }
-        params.put("api-key", API_KEY);
+        params.put(NetworkConstants.API_KEY_PARAM, NetworkConstants.API_KEY_VALUE);
 
         client.get(getAbsoluteUrl(url), params, responseHandler);
     }
@@ -49,13 +46,13 @@ public class NYTRestClient {
         if (params == null) {
             params = new RequestParams();
         }
-        params.put("api_key", API_KEY);
+        params.put(NetworkConstants.API_KEY_PARAM, NetworkConstants.API_KEY_VALUE);
 
         client.post(getAbsoluteUrl(url), params, responseHandler);
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {
-        String url = BASE_URL + relativeUrl;
+        String url = NetworkConstants.BASE_URL + relativeUrl;
         Log.d(TAG_LOG, url);
         return url;
     }
