@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -44,6 +45,9 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
  */
 public class SearchActivity extends BaseActivity implements SearchAdapter.OnArticlesAdapterListener,
         FilterFragment.OnFilterFragmentListener {
+
+    @BindView(R.id.swipe_container)
+    SwipeRefreshLayout mSwipeToRefresh;
 
     @BindView(R.id.rv_articles)
     RecyclerView mRecyclerView;
@@ -167,6 +171,17 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
         mAdapter = new SearchAdapter(new ArrayList<Article>(), this);
         mRecyclerView.setAdapter(mAdapter);
 
+        mSwipeToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                startNewSearch();
+            }
+        });
+        // Configure the refreshing colors
+        mSwipeToRefresh.setColorSchemeResources(R.color.colorPrimary,
+                R.color.colorPrimaryDark);
+
+
         updateToolbarBehaviour();
     }
 
@@ -210,6 +225,10 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
                     updateToolbarBehaviour();
 
                     hideProgressBar();
+
+                    // Now we call setRefreshing(false) to signal refresh has finished
+                    mSwipeToRefresh.setRefreshing(false);
+
                 }
 
                 @Override
@@ -221,8 +240,14 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
                     updateToolbarBehaviour();
 
                     hideProgressBar();
+
+                    // Now we call setRefreshing(false) to signal refresh has finished
+                    mSwipeToRefresh.setRefreshing(false);
                 }
             });
+        } else {
+            // Now we call setRefreshing(false) to signal refresh has finished
+            mSwipeToRefresh.setRefreshing(false);
         }
     }
 
