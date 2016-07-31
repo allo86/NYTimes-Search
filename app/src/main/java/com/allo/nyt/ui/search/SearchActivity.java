@@ -81,11 +81,10 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
             public boolean onQueryTextSubmit(String query) {
                 // User pressed the search button
                 mTextFilter = query;
-                mArticles = new ArrayList<>();
-                loadMoreArticles(0);
                 searchView.clearFocus();
-                searchItem.collapseActionView();
+                //searchItem.collapseActionView();
                 setTitle(query);
+                startNewSearch();
                 return false;
             }
 
@@ -276,16 +275,20 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
         if (requestCode == FilterActivity.REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // Start new search, page 0
-                mArticles = new ArrayList<>();
-                loadMoreArticles(0);
+                startNewSearch();
             }
         }
     }
 
     @Override
     public void onFilterSaved(Filter filter) {
+        startNewSearch();
+    }
+
+    private void startNewSearch() {
         // Start new search, page 0
         mArticles = new ArrayList<>();
+        mAdapter.notifyDataSetChanged(mArticles);
         loadMoreArticles(0);
     }
 
