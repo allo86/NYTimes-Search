@@ -31,8 +31,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResourceID());
 
-        Icepick.restoreInstanceState(this, savedInstanceState);
-
         initializeUI();
         initializeData();
 
@@ -40,6 +38,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (extras != null) {
             initializeDataFromIntentBundle(extras);
         }
+
+        Icepick.restoreInstanceState(this, savedInstanceState);
 
         showData();
     }

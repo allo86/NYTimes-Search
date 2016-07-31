@@ -53,11 +53,17 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
     RecyclerView mRecyclerView;
 
     SearchAdapter mAdapter;
+    EndlessRecyclerViewScrollListener mEndlessListener;
     StaggeredGridLayoutManager mGridLayoutManager;
+
+    @State(SearchActivityBundler.class)
     ArrayList<Article> mArticles;
 
     @State
     String mTextFilter;
+
+    @State
+    int mCurrentPage;
 
     private SearchView searchView;
     private MenuItem progressItem;
@@ -152,7 +158,7 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
         mGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
 
-        mRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(mGridLayoutManager) {
+        mEndlessListener = new EndlessRecyclerViewScrollListener(mGridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 // Triggered only when new data needs to be appended to the list
@@ -166,7 +172,8 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
                     loadMoreArticles(page);
                 }
             }
-        });
+        };
+        mRecyclerView.addOnScrollListener(mEndlessListener);
 
         mAdapter = new SearchAdapter(new ArrayList<Article>(), this);
         mRecyclerView.setAdapter(mAdapter);
@@ -191,8 +198,14 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
 
     @Override
     protected void showData() {
+        if (mTextFilter != null && !"".equals(mTextFilter)) {
+            setTitle(mTextFilter);
+            if (searchView != null) searchView.setQuery(mTextFilter, false);
+        }
+
         if (mArticles != null) {
             mAdapter.notifyDataSetChanged(mArticles);
+            mEndlessListener.setCurrentPage(mCurrentPage);
         } else {
             loadMoreArticles(0);
         }
@@ -214,6 +227,9 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
                 @Override
                 public void onSuccess(SearchArticlesResponse response) {
                     if (response.getArticles() != null) {
+                        if (response.getArticles().size() > 0) {
+                            mCurrentPage = page;
+                        }
                         if (mArticles == null) {
                             mArticles = new ArrayList<>();
                         }
