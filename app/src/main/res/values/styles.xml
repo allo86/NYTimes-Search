@@ -8,9 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
         <!-- Apply default style for dialogs -->
         <item name="android:dialogTheme">@style/AppDialogTheme</item>
+        <!-- This is to fix the white status bar issue -->
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

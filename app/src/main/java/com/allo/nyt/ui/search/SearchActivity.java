@@ -265,6 +265,7 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
             FilterFragment fragment = new FilterFragment();
             fragment.show(fm, "filter");
         } else {
+
             Intent intent = new Intent(this, FilterActivity.class);
             startActivityForResult(intent, FilterActivity.REQUEST_CODE);
         }
