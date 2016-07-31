@@ -65,6 +65,9 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
     @State
     int mCurrentPage;
 
+    @State
+    boolean didStartedActivityForResult;
+
     private SearchView searchView;
     private MenuItem progressItem;
 
@@ -203,12 +206,15 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
             if (searchView != null) searchView.setQuery(mTextFilter, false);
         }
 
-        if (mArticles != null) {
+        if (mArticles != null && !didStartedActivityForResult) {
             mAdapter.notifyDataSetChanged(mArticles);
             mEndlessListener.setCurrentPage(mCurrentPage);
-        } else {
+        }
+        /*
+        else {
             loadMoreArticles(0);
         }
+        */
     }
 
     private void loadMoreArticles(final int page) {
@@ -235,6 +241,10 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
                         }
                         mArticles.addAll(response.getArticles());
                         mAdapter.notifyDataSetChanged(mArticles);
+
+                        if (page == 0) {
+                            mRecyclerView.scrollToPosition(0);
+                        }
                     }
 
                     updateToolbarBehaviour();
@@ -305,15 +315,16 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
             FilterFragment fragment = new FilterFragment();
             fragment.show(fm, "filter");
         } else {
-
             Intent intent = new Intent(this, FilterActivity.class);
             startActivityForResult(intent, FilterActivity.REQUEST_CODE);
+            didStartedActivityForResult = true;
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == FilterActivity.REQUEST_CODE) {
+            didStartedActivityForResult = false;
             if (resultCode == RESULT_OK) {
                 // Start new search, page 0
                 startNewSearch();
@@ -328,6 +339,8 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
 
     private void startNewSearch() {
         // Start new search, page 0
+        mCurrentPage = 0;
+        //mRecyclerView.scrollToPosition(0);
         mArticles = new ArrayList<>();
         mAdapter.notifyDataSetChanged(mArticles);
         loadMoreArticles(0);

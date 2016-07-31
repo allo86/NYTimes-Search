@@ -16,9 +16,11 @@ import icepick.Bundler;
 public class SearchActivityBundler implements Bundler<ArrayList<Article>> {
     @Override
     public void put(String s, ArrayList<Article> articles, Bundle bundle) {
-        bundle.putInt("articles_count", articles.size());
-        for (int i = 0; i < articles.size(); i++) {
-            bundle.putParcelable("article_" + String.valueOf(i), Parcels.wrap(articles.get(i)));
+        if (articles != null && articles.size() > 0) {
+            bundle.putInt("articles_count", articles.size());
+            for (int i = 0; i < articles.size(); i++) {
+                bundle.putParcelable("article_" + String.valueOf(i), Parcels.wrap(articles.get(i)));
+            }
         }
     }
 
