@@ -181,7 +181,6 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnArti
         mSwipeToRefresh.setColorSchemeResources(R.color.colorPrimary,
                 R.color.colorPrimaryDark);
 
-
         updateToolbarBehaviour();
     }
 

@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by allerena on 3/15/16.
+ * Custom EditText that show a DatePickerDialog
  */
 public class DateEditText extends EditText {
 
